@@ -3513,12 +3513,9 @@ Entdecke passende Schränke und Elektrogeräte, mit Transport bis zu deiner Wohn
         return target instanceof Element ? target.closest(selector) : null;
     }
 
-    function getComponentInfoPdfUrl(target) {
+    function getComponentInfoLinkPdfUrl(target) {
         const pdfLink = getClosestElement(target, '.component-info-pdf-link');
-        if (pdfLink) return pdfLink.href;
-
-        const infoTrigger = getClosestElement(target, '.component-info-trigger');
-        return infoTrigger?.dataset.pdfUrl || null;
+        return pdfLink?.href || null;
     }
 
     function getVisibleComponentInfoPdfUrlAtPoint(event) {
@@ -3553,14 +3550,14 @@ Entdecke passende Schränke und Elektrogeräte, mit Transport bis zu deiner Wohn
 
     combinedList.addEventListener('pointerdown', (e) => {
         if (isComponentInfoInteractionTarget(e.target)) {
-            pendingComponentInfoPdfUrl = getComponentInfoPdfUrl(e.target);
+            pendingComponentInfoPdfUrl = getComponentInfoLinkPdfUrl(e.target);
             e.stopPropagation();
         }
     }, true);
 
     combinedList.addEventListener('pointerup', (e) => {
         const pdfUrl =
-            getComponentInfoPdfUrl(e.target) ||
+            getComponentInfoLinkPdfUrl(e.target) ||
             getVisibleComponentInfoPdfUrlAtPoint(e) ||
             pendingComponentInfoPdfUrl;
         if (!pdfUrl) return;
@@ -3597,18 +3594,16 @@ Entdecke passende Schränke und Elektrogeräte, mit Transport bis zu deiner Wohn
             e.preventDefault();
             e.stopPropagation();
             const pdfUrl = infoTrigger.dataset.pdfUrl;
-            if (pdfUrl) {
+            const hostItem = infoTrigger.closest('.component-item');
+            const isOpen = hostItem.classList.contains('is-info-open');
+            if (pdfUrl && isOpen) {
                 window.open(pdfUrl, '_blank', 'noopener,noreferrer');
                 closeAllComponentInfoTooltips();
                 return;
             }
-            const hostItem = infoTrigger.closest('.component-item');
-            const willOpen = !hostItem.classList.contains('is-info-open');
             closeAllComponentInfoTooltips();
-            if (willOpen) {
-                hostItem.classList.add('is-info-open');
-                infoTrigger.setAttribute('aria-expanded', 'true');
-            }
+            hostItem.classList.add('is-info-open');
+            infoTrigger.setAttribute('aria-expanded', 'true');
             return;
         }
 
