@@ -227,6 +227,35 @@
         white-space: normal;
         overflow-wrap: anywhere;
       }
+      .component-info-copy {
+        display: block;
+        color: #c62828;
+      }
+      .component-info-pdf-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin-top: 8px;
+        padding: 6px 10px;
+        border-radius: 999px;
+        border: 1px solid #ab6b2e;
+        background: #fff7ec;
+        color: #7a4a18;
+        font-size: 11px;
+        font-weight: 700;
+        line-height: 1.2;
+        text-decoration: none;
+        transition: background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+      }
+      .component-info-pdf-link:hover {
+        background: #f4e1c6;
+        border-color: #8f581f;
+        color: #5d3510;
+      }
+      .component-info-pdf-link:focus-visible {
+        outline: 2px solid rgba(171, 107, 46, 0.46);
+        outline-offset: 2px;
+      }
       .component-info-trigger:hover + .component-info-tooltip,
       .component-item.has-info .component-name-wrap:focus-within .component-info-tooltip,
       .component-item.has-info.is-info-open .component-info-tooltip {
@@ -3251,12 +3280,12 @@ Entdecke passende Schränke und Elektrogeräte, mit Transport bis zu deiner Wohn
     
     function getComponentData(color) {
         const dataMap = {
-            "#001f7f": { name: "Spülmaschine", icon: icons.dishwasher, price: 579, infoText: "Amica by architecto" },
-            "black": { name: "Kühlschrank", icon: icons.refrigerator, price: 579, infoText: "Amica by architecto" },
+            "#001f7f": { name: "Spülmaschine", icon: icons.dishwasher, price: 579, infoText: "Amica by architecto", pdfUrl: "pdf/dishwasher-product-info.pdf" },
+            "black": { name: "Kühlschrank", icon: icons.refrigerator, price: 579, infoText: "Amica by architecto", pdfUrl: "pdf/fridge-product-info.pdf" },
             "#ffbf00": { name: "Unterschrank 30cm", icon: icons.base_cabinet_30, price: 175 },
             "#00ffbf": { name: "Oberschrank (links)", icon: icons.wall_cabinet_l, price: 115 },
             "#394c00": { name: "Oberschrank (rechts)", icon: icons.wall_cabinet_r, price: 115 },
-            "#ff7f9f": { name: "Dunstabzugshaube", icon: icons.extractor_hood, price: 349, infoText: "Amica by architecto"},
+            "#ff7f9f": { name: "Dunstabzugshaube", icon: icons.extractor_hood, price: 349, infoText: "Amica by architecto", pdfUrl: "pdf/extractor-hood-flat-product-info.pdf"},
         };
         return dataMap[color?.toLowerCase()] || null;
     }
@@ -3303,8 +3332,11 @@ Entdecke passende Schränke und Elektrogeräte, mit Transport bis zu deiner Wohn
                 li.dataset.hasInfo = 'true';
             }
             const infoMarkup = componentData.infoText ? `
-                <button type="button" class="component-info-trigger" aria-label="Info zu ${componentData.name}" aria-expanded="false">i</button>
-                <div class="component-info-tooltip">${componentData.infoText}</div>` : '';
+                <button type="button" class="component-info-trigger" aria-label="Info zu ${componentData.name}" aria-expanded="false"${componentData.pdfUrl ? ` data-pdf-url="${componentData.pdfUrl}"` : ''}>i</button>
+                <div class="component-info-tooltip">
+                    <span class="component-info-copy">${componentData.infoText}</span>
+                    ${componentData.pdfUrl ? `<a class="component-info-pdf-link" href="${componentData.pdfUrl}" target="_blank" rel="noopener noreferrer">Open PDF</a>` : ''}
+                </div>` : '';
             li.innerHTML = `
                 <span class="selection-indicator"></span>
                 <span class="component-icon">${componentData.icon || ''}</span>
@@ -3427,6 +3459,12 @@ Entdecke passende Schränke und Elektrogeräte, mit Transport bis zu deiner Wohn
         if (infoTrigger) {
             e.preventDefault();
             e.stopPropagation();
+            const pdfUrl = infoTrigger.dataset.pdfUrl;
+            if (pdfUrl) {
+                window.open(pdfUrl, '_blank', 'noopener,noreferrer');
+                closeAllComponentInfoTooltips();
+                return;
+            }
             const hostItem = infoTrigger.closest('.component-item');
             const willOpen = !hostItem.classList.contains('is-info-open');
             closeAllComponentInfoTooltips();
