@@ -3511,6 +3511,14 @@ Entdecke passende Schränke und Elektrogeräte, mit Transport bis zu deiner Wohn
             return;
         }
 
+        const pdfLink = e.target.closest('.component-info-pdf-link');
+        if (pdfLink) {
+            e.preventDefault();
+            e.stopPropagation();
+            window.open(pdfLink.href, '_blank', 'noopener,noreferrer');
+            return;
+        }
+
         const item = e.target.closest('.accessory-item, .component-item');
         if (!item) return;
 
