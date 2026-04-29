@@ -162,6 +162,11 @@
         box-shadow: 0 2px 8px rgba(40, 167, 69, 0.2);
         padding: 9px 4px;
       }
+      .component-item.has-info:hover,
+      .component-item.has-info:focus-within,
+      .component-item.has-info.is-info-open {
+        z-index: 50;
+      }
       .component-icon {
         display: inline-flex; align-items: center; justify-content: center;
         width: var(--icon-size, 50px); height: var(--icon-size, 50px); flex-shrink: 0;
@@ -195,6 +200,7 @@
         cursor: pointer;
         padding: 0;
         z-index: 8;
+        touch-action: manipulation;
       }
       .component-info-trigger:hover {
         border-color: #36506b;
@@ -226,6 +232,8 @@
         font-weight: 700;
         white-space: normal;
         overflow-wrap: anywhere;
+        pointer-events: auto;
+        touch-action: manipulation;
       }
       .component-info-copy {
         display: block;
@@ -275,7 +283,10 @@
         font-weight: 700;
         line-height: 1.2;
         text-decoration: none;
+        position: relative;
+        z-index: 36;
         transition: background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+        touch-action: manipulation;
       }
       .component-info-pdf-link:hover {
         background: #f4e1c6;
@@ -915,6 +926,11 @@
         .component-price {
             font-size: 20px;
             margin-top: 2px;
+        }
+        .component-info-pdf-link {
+            min-height: 34px;
+            padding: 8px 12px;
+            font-size: 11px;
         }
         .accessory-item,
         #combined-list .accessory-item {
@@ -3489,9 +3505,94 @@ Entdecke passende Schränke und Elektrogeräte, mit Transport bis zu deiner Wohn
             if (trigger) trigger.setAttribute('aria-expanded', 'false');
         });
     }
+
+    let pendingComponentInfoPdfUrl = null;
+    let suppressNextComponentInfoClick = false;
+
+    function getClosestElement(target, selector) {
+        return target instanceof Element ? target.closest(selector) : null;
+    }
+
+    function getComponentInfoPdfUrl(target) {
+        const pdfLink = getClosestElement(target, '.component-info-pdf-link');
+        if (pdfLink) return pdfLink.href;
+
+        const infoTrigger = getClosestElement(target, '.component-info-trigger');
+        return infoTrigger?.dataset.pdfUrl || null;
+    }
+
+    function getVisibleComponentInfoPdfUrlAtPoint(event) {
+        if (typeof event.clientX !== 'number' || typeof event.clientY !== 'number') {
+            return null;
+        }
+
+        for (const link of combinedList.querySelectorAll('.component-info-pdf-link')) {
+            const rect = link.getBoundingClientRect();
+            const isVisible = rect.width > 0 && rect.height > 0;
+            const isInside =
+                event.clientX >= rect.left &&
+                event.clientX <= rect.right &&
+                event.clientY >= rect.top &&
+                event.clientY <= rect.bottom;
+
+            if (isVisible && isInside) {
+                return link.href;
+            }
+        }
+
+        return null;
+    }
+
+    function isComponentInfoInteractionTarget(target) {
+        return Boolean(
+            getClosestElement(target, '.component-info-trigger') ||
+            getClosestElement(target, '.component-info-tooltip') ||
+            getClosestElement(target, '.component-info-pdf-link')
+        );
+    }
+
+    combinedList.addEventListener('pointerdown', (e) => {
+        if (isComponentInfoInteractionTarget(e.target)) {
+            pendingComponentInfoPdfUrl = getComponentInfoPdfUrl(e.target);
+            e.stopPropagation();
+        }
+    }, true);
+
+    combinedList.addEventListener('pointerup', (e) => {
+        const pdfUrl =
+            getComponentInfoPdfUrl(e.target) ||
+            getVisibleComponentInfoPdfUrlAtPoint(e) ||
+            pendingComponentInfoPdfUrl;
+        if (!pdfUrl) return;
+
+        e.preventDefault();
+        e.stopImmediatePropagation();
+        window.open(pdfUrl, '_blank', 'noopener,noreferrer');
+        pendingComponentInfoPdfUrl = null;
+        suppressNextComponentInfoClick = true;
+        closeAllComponentInfoTooltips();
+    }, true);
     
     combinedList.addEventListener('click', (e) => {
-        const infoTrigger = e.target.closest('.component-info-trigger');
+        if (suppressNextComponentInfoClick) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            suppressNextComponentInfoClick = false;
+            return;
+        }
+
+        const visiblePdfUrl = getVisibleComponentInfoPdfUrlAtPoint(e);
+        if (pendingComponentInfoPdfUrl || visiblePdfUrl) {
+            e.preventDefault();
+            e.stopImmediatePropagation();
+            window.open(visiblePdfUrl || pendingComponentInfoPdfUrl, '_blank', 'noopener,noreferrer');
+            pendingComponentInfoPdfUrl = null;
+            suppressNextComponentInfoClick = false;
+            closeAllComponentInfoTooltips();
+            return;
+        }
+
+        const infoTrigger = getClosestElement(e.target, '.component-info-trigger');
         if (infoTrigger) {
             e.preventDefault();
             e.stopPropagation();
@@ -3511,7 +3612,7 @@ Entdecke passende Schränke und Elektrogeräte, mit Transport bis zu deiner Wohn
             return;
         }
 
-        const pdfLink = e.target.closest('.component-info-pdf-link');
+        const pdfLink = getClosestElement(e.target, '.component-info-pdf-link');
         if (pdfLink) {
             e.preventDefault();
             e.stopPropagation();
@@ -3519,10 +3620,13 @@ Entdecke passende Schränke und Elektrogeräte, mit Transport bis zu deiner Wohn
             return;
         }
 
-        const item = e.target.closest('.accessory-item, .component-item');
+        const item = getClosestElement(e.target, '.accessory-item, .component-item');
         if (!item) return;
 
         if (item.classList.contains('component-item')) {
+            if (isComponentInfoInteractionTarget(e.target)) {
+                return;
+            }
             const targetId = item.dataset.targetId;
             if (!lockedComponentIds.includes(targetId)) {
                 toggleSelection(targetId);
