@@ -237,14 +237,14 @@
       }
       .component-info-copy {
         display: block;
-        margin-top: 3px;
-        color: #5e6f82;
-        font-size: 10px;
-        font-weight: 600;
+        color: #23384d;
+        font-size: 12px;
+        font-weight: 700;
         line-height: 1.25;
       }
       .component-info-model {
         display: block;
+        margin-top: 3px;
         color: #7f8d9c;
         font-size: 9px;
         font-weight: 700;
@@ -254,20 +254,11 @@
       }
       .component-info-title {
         display: block;
-        margin-top: 2px;
-        color: #23384d;
-        font-size: 12px;
-        font-weight: 700;
-        line-height: 1.2;
-      }
-      .component-info-highlights {
-        display: block;
-        margin-top: 5px;
+        margin-top: 3px;
         color: #36506b;
         font-size: 10px;
-        font-weight: 600;
-        line-height: 1.25;
-        white-space: normal;
+        font-weight: 700;
+        line-height: 1.2;
       }
       .component-info-pdf-link {
         display: inline-flex;
@@ -928,9 +919,10 @@
             margin-top: 2px;
         }
         .component-info-pdf-link {
-            min-height: 34px;
-            padding: 8px 12px;
+            min-height: 0;
+            padding: 5px 10px;
             font-size: 11px;
+            line-height: 1.15;
         }
         .accessory-item,
         #combined-list .accessory-item {
@@ -3326,12 +3318,12 @@ Entdecke passende Schränke und Elektrogeräte, mit Transport bis zu deiner Wohn
     
     function getComponentData(color) {
         const dataMap = {
-            "#001f7f": { name: "Spülmaschine", icon: icons.dishwasher, price: 579, model: "EGSPV 597 210", shortTitle: "Geschirrspüler, 60 cm", infoText: "60 cm, sparsam, vollintegriert", highlights: ["12 Maßgedecke", "OpenDry", "5 Programme", "AquaStop"], pdfUrl: "pdf/dishwasher-product-info.pdf" },
-            "black": { name: "Kühlschrank", icon: icons.refrigerator, price: 579, model: "EKGC 161 60", shortTitle: "Kühl-/Gefrierkombination, 180 cm", infoText: "Geräumig, effizient, mit Gefrierfach", highlights: ["NoFrost", "Inverter Kompressor", "FreshZone", "250 L"], pdfUrl: "pdf/fridge-product-info.pdf" },
+            "#001f7f": { name: "Spülmaschine", icon: icons.dishwasher, price: 579, model: "EGSPV 597 210", infoText: "Leiser Geschirrspüler für den Alltag", specLine: "Energie D · 49 dB · 60 cm · 5 Programme", pdfUrl: "pdf/dishwasher-product-info.pdf" },
+            "black": { name: "Kühlschrank", icon: icons.refrigerator, price: 579, model: "EKGC 161 60", infoText: "Kühl-Gefrierkombi für kleine Küchen", specLine: "Energie F · 40 dB · 54 cm · 170 l Nutzinhalt", pdfUrl: "pdf/fridge-product-info.pdf" },
             "#ffbf00": { name: "Unterschrank 30cm", icon: icons.base_cabinet_30, price: 175 },
             "#00ffbf": { name: "Oberschrank (links)", icon: icons.wall_cabinet_l, price: 115 },
             "#394c00": { name: "Oberschrank (rechts)", icon: icons.wall_cabinet_r, price: 115 },
-            "#ff7f9f": { name: "Dunstabzugshaube", icon: icons.extractor_hood, price: 349, model: "EAFS 260 20", shortTitle: "Dunstabzugshaube, 60 cm", infoText: "Platzsparend, leise, starke Leistung", highlights: ["Teleskophaube", "415 m³/h", "LED-Beleuchtung", "Energieklasse A"], pdfUrl: "pdf/extractor-hood-flat-product-info.pdf"},
+            "#ff7f9f": { name: "Dunstabzugshaube", icon: icons.extractor_hood, price: 349, model: "EAFS 260 20", infoText: "Starke Teleskophaube mit LED", specLine: "Energie A · 70 dB · 60 cm · 415 m³/h", pdfUrl: "pdf/extractor-hood-flat-product-info.pdf"},
         };
         return dataMap[color?.toLowerCase()] || null;
     }
@@ -3377,16 +3369,12 @@ Entdecke passende Schränke und Elektrogeräte, mit Transport bis zu deiner Wohn
                 li.classList.add('has-info');
                 li.dataset.hasInfo = 'true';
             }
-            const highlightMarkup = Array.isArray(componentData.highlights) && componentData.highlights.length
-                ? `<div class="component-info-highlights">${componentData.highlights.slice(0, 4).join(' · ')}</div>`
-                : '';
             const infoMarkup = componentData.infoText ? `
                 <button type="button" class="component-info-trigger" aria-label="Info zu ${componentData.name}" aria-expanded="false"${componentData.pdfUrl ? ` data-pdf-url="${componentData.pdfUrl}"` : ''}>i</button>
                 <div class="component-info-tooltip">
-                    ${componentData.model ? `<span class="component-info-model">${componentData.model}</span>` : ''}
-                    ${componentData.shortTitle ? `<span class="component-info-title">${componentData.shortTitle}</span>` : ''}
                     <span class="component-info-copy">${componentData.infoText}</span>
-                    ${highlightMarkup}
+                    ${componentData.model ? `<span class="component-info-model">${componentData.model}</span>` : ''}
+                    ${componentData.specLine ? `<span class="component-info-title">${componentData.specLine}</span>` : ''}
                     ${componentData.pdfUrl ? `<a class="component-info-pdf-link" href="${componentData.pdfUrl}" target="_blank" rel="noopener noreferrer">Mehr erfahren</a>` : ''}
                 </div>` : '';
             li.innerHTML = `
