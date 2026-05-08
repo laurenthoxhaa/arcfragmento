@@ -202,6 +202,12 @@
         z-index: 8;
         touch-action: manipulation;
       }
+      .component-info-trigger.is-active {
+        border-color: #ab6b2e;
+        background: #fff1de;
+        color: #7a4a18;
+        box-shadow: 0 0 0 2px rgba(171, 107, 46, 0.14);
+      }
       .component-info-trigger:hover {
         border-color: #36506b;
         color: #1f3348;
@@ -218,7 +224,7 @@
         bottom: 34px;
         width: auto;
         box-sizing: border-box;
-        padding: 8px 10px;
+        padding: 0;
         border-radius: 10px;
         border: 1px solid #b6c2cf;
         background: linear-gradient(180deg, #ffffff 0%, #f5f8fc 100%);
@@ -234,6 +240,26 @@
         overflow-wrap: anywhere;
         pointer-events: auto;
         touch-action: manipulation;
+      }
+      .component-info-preview-wrap {
+        display: flex;
+        justify-content: center;
+        margin: 0;
+      }
+      .component-info-preview {
+        display: block;
+        width: 100%;
+        max-width: none;
+        height: 118px;
+        object-fit: cover;
+        border-radius: 10px 10px 0 0;
+        background: #ffffff;
+        border: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      .component-info-body {
+        padding: 8px 10px 10px;
       }
       .component-info-copy {
         display: block;
@@ -259,34 +285,6 @@
         font-size: 10px;
         font-weight: 700;
         line-height: 1.2;
-      }
-      .component-info-pdf-link {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        margin-top: 7px;
-        padding: 4px 9px;
-        border-radius: 999px;
-        border: 1px solid #ab6b2e;
-        background: #fff7ec;
-        color: #7a4a18;
-        font-size: 10px;
-        font-weight: 700;
-        line-height: 1.2;
-        text-decoration: none;
-        position: relative;
-        z-index: 36;
-        transition: background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease;
-        touch-action: manipulation;
-      }
-      .component-info-pdf-link:hover {
-        background: #f4e1c6;
-        border-color: #8f581f;
-        color: #5d3510;
-      }
-      .component-info-pdf-link:focus-visible {
-        outline: 2px solid rgba(171, 107, 46, 0.46);
-        outline-offset: 2px;
       }
       .component-info-trigger:hover + .component-info-tooltip,
       .component-item.has-info .component-name-wrap:focus-within .component-info-tooltip,
@@ -537,6 +535,102 @@
       .overlay-back-btn:focus-visible {
         outline: 2px solid rgba(171, 107, 46, 0.46);
         outline-offset: 2px;
+      }
+      .product-info-overlay {
+        z-index: 10020;
+      }
+      .product-info-card {
+        max-width: 1180px;
+        width: min(94vw, 1180px);
+        max-height: min(90vh, 860px);
+        padding: 18px;
+        gap: 14px;
+      }
+      .product-info-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+      .product-info-header h2 {
+        margin: 0;
+        font-size: clamp(22px, 2vw, 30px);
+        color: var(--text-strong);
+      }
+      .product-info-close {
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        background: linear-gradient(180deg, #fffdf8 0%, #f7ecdf 100%);
+        color: var(--text-strong);
+        font-weight: 700;
+        font-size: 13px;
+        padding: 8px 12px;
+        cursor: pointer;
+      }
+      .product-info-toolbar {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      .product-info-document-tabs {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .product-info-document-tab,
+      .product-info-document-tab-active {
+        border-radius: 999px;
+        padding: 8px 12px;
+        font-size: 12px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease;
+      }
+      .product-info-document-tab {
+        border: 1px solid #d8e1ea;
+        background: #ffffff;
+        color: #36506b;
+      }
+      .product-info-document-tab-active {
+        border: 1px solid #ab6b2e;
+        background: #fff7ec;
+        color: #7a4a18;
+      }
+      .product-info-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .product-info-action-link {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 8px 12px;
+        border-radius: 999px;
+        border: 1px solid #ab6b2e;
+        background: #fff7ec;
+        color: #7a4a18;
+        font-size: 12px;
+        font-weight: 700;
+        line-height: 1.2;
+        text-decoration: none;
+      }
+      .product-info-viewer {
+        min-height: min(66vh, 680px);
+        border: 1px solid rgba(177, 145, 116, 0.24);
+        border-radius: 14px;
+        overflow: hidden;
+        background: #ffffff;
+        box-shadow: inset 0 1px 0 rgba(255,255,255,0.7);
+      }
+      .product-info-frame {
+        width: 100%;
+        height: min(66vh, 680px);
+        border: 0;
+        display: block;
+        background: #ffffff;
       }
       .welcome-card-footer {
         display: flex;
@@ -917,12 +1011,6 @@
         .component-price {
             font-size: 20px;
             margin-top: 2px;
-        }
-        .component-info-pdf-link {
-            min-height: 0;
-            padding: 5px 10px;
-            font-size: 11px;
-            line-height: 1.15;
         }
         .accessory-item,
         #combined-list .accessory-item {
@@ -2732,6 +2820,22 @@ Entdecke passende Schränke und Elektrogeräte, mit Transport bis zu deiner Wohn
       <img id="lightbox-image" src="" alt="Vergrößerte Ansicht des Spülenschranks">
     </div>
 
+    <div id="product-info-overlay" class="overlay product-info-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="product-info-title">
+      <div class="welcome-card product-info-card">
+        <div class="product-info-header">
+          <h2 id="product-info-title">Produktinformationen</h2>
+          <button id="close-product-info-overlay" type="button" class="product-info-close">Close</button>
+        </div>
+        <div class="product-info-toolbar">
+          <div id="product-info-document-tabs" class="product-info-document-tabs"></div>
+          <div id="product-info-actions" class="product-info-actions"></div>
+        </div>
+        <div class="product-info-viewer">
+          <iframe id="product-info-frame" class="product-info-frame" title="Produktinformationen"></iframe>
+        </div>
+      </div>
+    </div>
+
     <!-- Third-party libs -->
     <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
 
@@ -2928,6 +3032,12 @@ Entdecke passende Schränke und Elektrogeräte, mit Transport bis zu deiner Wohn
   const contractTitleEl = document.getElementById('contract-title');
   const contractHelperTextEl = document.getElementById('contract-helper-text');
   const contractNumberLabelEl = document.getElementById('contract-number-label');
+  const productInfoOverlay = document.getElementById('product-info-overlay');
+  const closeProductInfoOverlayBtn = document.getElementById('close-product-info-overlay');
+  const productInfoTitleEl = document.getElementById('product-info-title');
+  const productInfoDocumentTabsEl = document.getElementById('product-info-document-tabs');
+  const productInfoActionsEl = document.getElementById('product-info-actions');
+  const productInfoFrameEl = document.getElementById('product-info-frame');
   const contractInput = document.getElementById('contractNumber');
   const contractError = document.getElementById('contract-error');
   const startConfigBtn = document.getElementById('start-config');
@@ -3318,17 +3428,54 @@ Entdecke passende Schränke und Elektrogeräte, mit Transport bis zu deiner Wohn
     
     function getComponentData(color) {
         const dataMap = {
-            "#001f7f": { name: "Spülmaschine", icon: icons.dishwasher, price: 579, model: "EGSPV 597 210", infoText: "Leiser Geschirrspüler für den Alltag", specLine: "Energie D · 49 dB · 60 cm · 5 Programme", pdfUrl: "pdf/dishwasher-product-info.pdf" },
-            "black": { name: "Kühlschrank", icon: icons.refrigerator, price: 579, model: "EKGC 161 60", infoText: "Kühl-Gefrierkombi für kleine Küchen", specLine: "Energie F · 40 dB · 54 cm · 170 l Nutzinhalt", pdfUrl: "pdf/fridge-product-info.pdf" },
+            "#001f7f": {
+                name: "Spülmaschine",
+                icon: icons.dishwasher,
+                price: 579,
+                model: "EGSPV 597 210",
+                infoText: "Leiser Geschirrspüler für den Alltag",
+                specLine: "Energie D · 49 dB · 60 cm · 5 Programme",
+                previewSrc: "img/dishwasher-preview.png",
+                documents: [
+                    { label: "E-Label PDF", href: "pdf/A-EGSPV597210_Elabel_Eco21_2601.pdf" },
+                    { label: "Produktinfo PDF", href: "pdf/A-EGSPV597210_Produktinformation_Eco21.pdf" },
+                ],
+            },
+            "black": {
+                name: "Kühlschrank",
+                icon: icons.refrigerator,
+                price: 579,
+                model: "EKGC 161 60",
+                infoText: "Kühl-Gefrierkombi für kleine Küchen",
+                specLine: "Energie F · 40 dB · 54 cm · 170 l Nutzinhalt",
+                previewSrc: "img/fridge-preview.png",
+                documents: [
+                    { label: "E-Label PDF", href: "pdf/KGC_15495_S_Elabel_Eco21_2602.pdf" },
+                    { label: "Produktinfo PDF", href: "pdf/KGC_15495_S_Produktinformation_Eco21.pdf" },
+                ],
+            },
             "#ffbf00": { name: "Unterschrank 30cm", icon: icons.base_cabinet_30, price: 175 },
             "#00ffbf": { name: "Oberschrank (links)", icon: icons.wall_cabinet_l, price: 115 },
             "#394c00": { name: "Oberschrank (rechts)", icon: icons.wall_cabinet_r, price: 115 },
-            "#ff7f9f": { name: "Dunstabzugshaube", icon: icons.extractor_hood, price: 349, model: "EAFS 260 20", infoText: "Starke Teleskophaube mit LED", specLine: "Energie A · 70 dB · 60 cm · 415 m³/h", pdfUrl: "pdf/extractor-hood-flat-product-info.pdf"},
+            "#ff7f9f": {
+                name: "Dunstabzugshaube",
+                icon: icons.extractor_hood,
+                price: 349,
+                model: "EAFS 260 20",
+                infoText: "Starke Teleskophaube mit LED",
+                specLine: "Energie A · 70 dB · 60 cm · 415 m³/h",
+                previewSrc: "img/hood-preview.png",
+                documents: [
+                    { label: "E-Label PDF", href: "pdf/FH_664_621_S_ELabel_Eco21_2512.pdf" },
+                    { label: "Produktinfo PDF", href: "pdf/FH_664_621_S_Produktinformation.pdf" },
+                ],
+            },
         };
         return dataMap[color?.toLowerCase()] || null;
     }
     
     const groupsByColor = new Map();
+    const componentInfoByTargetId = new Map();
     svg?.querySelectorAll(drawableSelectors).forEach(el => {
         const color = extractStroke(el);
         if (color) {
@@ -3350,6 +3497,9 @@ Entdecke passende Schränke und Elektrogeräte, mit Transport bis zu deiner Wohn
         if (componentData?.price) {
             g.dataset.price = componentData.price;
         }
+        if (componentData) {
+            componentInfoByTargetId.set(componentId, componentData);
+        }
 
         const parent = elemArray[0].parentNode;
         if (parent) {
@@ -3365,17 +3515,19 @@ Entdecke passende Schränke und Elektrogeräte, mit Transport bis zu deiner Wohn
             const li = document.createElement('li');
             li.className = 'component-item';
             li.dataset.targetId = componentId;
-            if (componentData.infoText) {
+            if (componentData.infoText || componentData.documents?.length) {
                 li.classList.add('has-info');
                 li.dataset.hasInfo = 'true';
             }
-            const infoMarkup = componentData.infoText ? `
-                <button type="button" class="component-info-trigger" aria-label="Info zu ${componentData.name}" aria-expanded="false"${componentData.pdfUrl ? ` data-pdf-url="${componentData.pdfUrl}"` : ''}>i</button>
+            const infoMarkup = (componentData.infoText || componentData.previewSrc || componentData.model || componentData.specLine) ? `
+                <button type="button" class="component-info-trigger" aria-label="Info zu ${componentData.name}" aria-expanded="false">i</button>
                 <div class="component-info-tooltip">
-                    <span class="component-info-copy">${componentData.infoText}</span>
-                    ${componentData.model ? `<span class="component-info-model">${componentData.model}</span>` : ''}
-                    ${componentData.specLine ? `<span class="component-info-title">${componentData.specLine}</span>` : ''}
-                    ${componentData.pdfUrl ? `<a class="component-info-pdf-link" href="${componentData.pdfUrl}" target="_blank" rel="noopener noreferrer">Mehr erfahren</a>` : ''}
+                    ${componentData.previewSrc ? `<div class="component-info-preview-wrap"><img class="component-info-preview" src="${componentData.previewSrc}" alt="${componentData.name} Vorschau"></div>` : ''}
+                    <div class="component-info-body">
+                        ${componentData.infoText ? `<span class="component-info-copy">${componentData.infoText}</span>` : ''}
+                        ${componentData.model ? `<span class="component-info-model">${componentData.model}</span>` : ''}
+                        ${componentData.specLine ? `<span class="component-info-title">${componentData.specLine}</span>` : ''}
+                    </div>
                 </div>` : '';
             li.innerHTML = `
                 <span class="selection-indicator"></span>
@@ -3494,112 +3646,110 @@ Entdecke passende Schränke und Elektrogeräte, mit Transport bis zu deiner Wohn
         });
     }
 
-    let pendingComponentInfoPdfUrl = null;
-    let suppressNextComponentInfoClick = false;
+    function setActiveInfoTrigger(componentId) {
+        combinedList.querySelectorAll('.component-info-trigger.is-active').forEach((trigger) => {
+            trigger.classList.remove('is-active');
+            trigger.setAttribute('aria-expanded', 'false');
+        });
+
+        if (!componentId) return;
+
+        const trigger = combinedList.querySelector(`[data-target-id="${componentId}"] .component-info-trigger`);
+        if (trigger) {
+            trigger.classList.add('is-active');
+            trigger.setAttribute('aria-expanded', 'true');
+        }
+    }
+
+    let activeProductInfoDocuments = [];
+    let activeProductInfoDocumentHref = '';
+    let activeProductInfoComponentId = '';
+
+    function closeProductInfoModal() {
+        productInfoOverlay?.classList.add('hidden');
+        activeProductInfoDocuments = [];
+        activeProductInfoDocumentHref = '';
+        activeProductInfoComponentId = '';
+        setActiveInfoTrigger('');
+        if (productInfoDocumentTabsEl) productInfoDocumentTabsEl.innerHTML = '';
+        if (productInfoActionsEl) productInfoActionsEl.innerHTML = '';
+        if (productInfoFrameEl) productInfoFrameEl.src = 'about:blank';
+    }
+
+    function renderProductInfoActions() {
+        if (!productInfoActionsEl) return;
+        productInfoActionsEl.innerHTML = activeProductInfoDocuments.map((document) =>
+            `<a class="product-info-action-link" href="${document.href}" target="_blank" rel="noopener noreferrer">Open ${document.label}</a>`
+        ).join('');
+    }
+
+    function renderProductInfoTabs() {
+        if (!productInfoDocumentTabsEl) return;
+        if (activeProductInfoDocuments.length <= 1) {
+            productInfoDocumentTabsEl.innerHTML = '';
+            return;
+        }
+
+        productInfoDocumentTabsEl.innerHTML = activeProductInfoDocuments.map((document) => {
+            const className = document.href === activeProductInfoDocumentHref
+                ? 'product-info-document-tab-active'
+                : 'product-info-document-tab';
+            return `<button type="button" class="${className}" data-product-info-href="${document.href}">${document.label}</button>`;
+        }).join('');
+    }
+
+    function selectProductInfoDocument(href) {
+        activeProductInfoDocumentHref = href;
+        if (productInfoFrameEl) {
+            productInfoFrameEl.src = href;
+        }
+        renderProductInfoTabs();
+    }
+
+    function openProductInfoModal(componentId) {
+        const componentData = componentInfoByTargetId.get(componentId);
+        const documents = Array.isArray(componentData?.documents)
+            ? componentData.documents.filter((document) => document?.href)
+            : [];
+
+        if (!componentData || !documents.length) {
+            return;
+        }
+
+        activeProductInfoDocuments = documents;
+        activeProductInfoDocumentHref = documents[0].href;
+        activeProductInfoComponentId = componentId;
+        setActiveInfoTrigger(componentId);
+
+        if (productInfoTitleEl) {
+            productInfoTitleEl.textContent = componentData.name || 'Produktinformationen';
+        }
+
+        renderProductInfoActions();
+        renderProductInfoTabs();
+        selectProductInfoDocument(activeProductInfoDocumentHref);
+        productInfoOverlay?.classList.remove('hidden');
+    }
 
     function getClosestElement(target, selector) {
         return target instanceof Element ? target.closest(selector) : null;
     }
 
-    function getComponentInfoLinkPdfUrl(target) {
-        const pdfLink = getClosestElement(target, '.component-info-pdf-link');
-        return pdfLink?.href || null;
-    }
-
-    function getVisibleComponentInfoPdfUrlAtPoint(event) {
-        if (typeof event.clientX !== 'number' || typeof event.clientY !== 'number') {
-            return null;
-        }
-
-        for (const link of combinedList.querySelectorAll('.component-info-pdf-link')) {
-            const rect = link.getBoundingClientRect();
-            const isVisible = rect.width > 0 && rect.height > 0;
-            const isInside =
-                event.clientX >= rect.left &&
-                event.clientX <= rect.right &&
-                event.clientY >= rect.top &&
-                event.clientY <= rect.bottom;
-
-            if (isVisible && isInside) {
-                return link.href;
-            }
-        }
-
-        return null;
-    }
-
     function isComponentInfoInteractionTarget(target) {
         return Boolean(
             getClosestElement(target, '.component-info-trigger') ||
-            getClosestElement(target, '.component-info-tooltip') ||
-            getClosestElement(target, '.component-info-pdf-link')
+            getClosestElement(target, '.component-info-tooltip')
         );
     }
-
-    combinedList.addEventListener('pointerdown', (e) => {
-        if (isComponentInfoInteractionTarget(e.target)) {
-            pendingComponentInfoPdfUrl = getComponentInfoLinkPdfUrl(e.target);
-            e.stopPropagation();
-        }
-    }, true);
-
-    combinedList.addEventListener('pointerup', (e) => {
-        const pdfUrl =
-            getComponentInfoLinkPdfUrl(e.target) ||
-            getVisibleComponentInfoPdfUrlAtPoint(e) ||
-            pendingComponentInfoPdfUrl;
-        if (!pdfUrl) return;
-
-        e.preventDefault();
-        e.stopImmediatePropagation();
-        window.open(pdfUrl, '_blank', 'noopener,noreferrer');
-        pendingComponentInfoPdfUrl = null;
-        suppressNextComponentInfoClick = true;
-        closeAllComponentInfoTooltips();
-    }, true);
     
     combinedList.addEventListener('click', (e) => {
-        if (suppressNextComponentInfoClick) {
-            e.preventDefault();
-            e.stopImmediatePropagation();
-            suppressNextComponentInfoClick = false;
-            return;
-        }
-
-        const visiblePdfUrl = getVisibleComponentInfoPdfUrlAtPoint(e);
-        if (pendingComponentInfoPdfUrl || visiblePdfUrl) {
-            e.preventDefault();
-            e.stopImmediatePropagation();
-            window.open(visiblePdfUrl || pendingComponentInfoPdfUrl, '_blank', 'noopener,noreferrer');
-            pendingComponentInfoPdfUrl = null;
-            suppressNextComponentInfoClick = false;
-            closeAllComponentInfoTooltips();
-            return;
-        }
-
         const infoTrigger = getClosestElement(e.target, '.component-info-trigger');
         if (infoTrigger) {
             e.preventDefault();
             e.stopPropagation();
-            const pdfUrl = infoTrigger.dataset.pdfUrl;
             const hostItem = infoTrigger.closest('.component-item');
-            const isOpen = hostItem.classList.contains('is-info-open');
-            if (pdfUrl && isOpen) {
-                window.open(pdfUrl, '_blank', 'noopener,noreferrer');
-                closeAllComponentInfoTooltips();
-                return;
-            }
             closeAllComponentInfoTooltips();
-            hostItem.classList.add('is-info-open');
-            infoTrigger.setAttribute('aria-expanded', 'true');
-            return;
-        }
-
-        const pdfLink = getClosestElement(e.target, '.component-info-pdf-link');
-        if (pdfLink) {
-            e.preventDefault();
-            e.stopPropagation();
-            window.open(pdfLink.href, '_blank', 'noopener,noreferrer');
+            openProductInfoModal(hostItem?.dataset.targetId || '');
             return;
         }
 
@@ -3658,6 +3808,26 @@ Entdecke passende Schränke und Elektrogeräte, mit Transport bis zu deiner Wohn
     document.addEventListener('click', (e) => {
         if (!e.target.closest('.component-name-wrap')) {
             closeAllComponentInfoTooltips();
+        }
+    });
+
+    productInfoDocumentTabsEl?.addEventListener('click', (e) => {
+        const button = e.target.closest('[data-product-info-href]');
+        if (!button) return;
+        e.preventDefault();
+        selectProductInfoDocument(button.dataset.productInfoHref);
+    });
+
+    closeProductInfoOverlayBtn?.addEventListener('click', closeProductInfoModal);
+    productInfoOverlay?.addEventListener('click', (e) => {
+        if (e.target === productInfoOverlay) {
+            closeProductInfoModal();
+        }
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && productInfoOverlay && !productInfoOverlay.classList.contains('hidden')) {
+            closeProductInfoModal();
         }
     });
     
