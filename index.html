@@ -598,25 +598,6 @@
         background: #fff7ec;
         color: #7a4a18;
       }
-      .product-info-actions {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-      }
-      .product-info-action-link {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        padding: 8px 12px;
-        border-radius: 999px;
-        border: 1px solid #ab6b2e;
-        background: #fff7ec;
-        color: #7a4a18;
-        font-size: 12px;
-        font-weight: 700;
-        line-height: 1.2;
-        text-decoration: none;
-      }
       .product-info-viewer {
         min-height: min(66vh, 680px);
         border: 1px solid rgba(177, 145, 116, 0.24);
@@ -2828,7 +2809,6 @@ Entdecke passende Schränke und Elektrogeräte, mit Transport bis zu deiner Wohn
         </div>
         <div class="product-info-toolbar">
           <div id="product-info-document-tabs" class="product-info-document-tabs"></div>
-          <div id="product-info-actions" class="product-info-actions"></div>
         </div>
         <div class="product-info-viewer">
           <iframe id="product-info-frame" class="product-info-frame" title="Produktinformationen"></iframe>
@@ -3036,7 +3016,6 @@ Entdecke passende Schränke und Elektrogeräte, mit Transport bis zu deiner Wohn
   const closeProductInfoOverlayBtn = document.getElementById('close-product-info-overlay');
   const productInfoTitleEl = document.getElementById('product-info-title');
   const productInfoDocumentTabsEl = document.getElementById('product-info-document-tabs');
-  const productInfoActionsEl = document.getElementById('product-info-actions');
   const productInfoFrameEl = document.getElementById('product-info-frame');
   const contractInput = document.getElementById('contractNumber');
   const contractError = document.getElementById('contract-error');
@@ -3672,15 +3651,7 @@ Entdecke passende Schränke und Elektrogeräte, mit Transport bis zu deiner Wohn
         activeProductInfoComponentId = '';
         setActiveInfoTrigger('');
         if (productInfoDocumentTabsEl) productInfoDocumentTabsEl.innerHTML = '';
-        if (productInfoActionsEl) productInfoActionsEl.innerHTML = '';
         if (productInfoFrameEl) productInfoFrameEl.src = 'about:blank';
-    }
-
-    function renderProductInfoActions() {
-        if (!productInfoActionsEl) return;
-        productInfoActionsEl.innerHTML = activeProductInfoDocuments.map((document) =>
-            `<a class="product-info-action-link" href="${document.href}" target="_blank" rel="noopener noreferrer">Open ${document.label}</a>`
-        ).join('');
     }
 
     function renderProductInfoTabs() {
@@ -3725,7 +3696,6 @@ Entdecke passende Schränke und Elektrogeräte, mit Transport bis zu deiner Wohn
             productInfoTitleEl.textContent = componentData.name || 'Produktinformationen';
         }
 
-        renderProductInfoActions();
         renderProductInfoTabs();
         selectProductInfoDocument(activeProductInfoDocumentHref);
         productInfoOverlay?.classList.remove('hidden');
