@@ -96,14 +96,14 @@ exports.handler = async (event) => {
   // Fire n8n webhook server-side and await it (serverless functions are killed on return)
   if (webhook_payload) {
     try {
-      const n8nUrl = new URL(process.env.N8N_WEBHOOK_URL || 'http://localhost:5678/webhook/kitchen-order-callback');
+      const n8nUrl = new URL(process.env.N8N_WEBHOOK_URL || 'https://n8n.primexeu.com/webhook/kitchen-order-callback');
       const lib = n8nUrl.protocol === 'https:' ? https : http;
       const body = JSON.stringify(webhook_payload);
       await new Promise((resolve) => {
         const req = lib.request({
           hostname: n8nUrl.hostname,
           port: n8nUrl.port || (n8nUrl.protocol === 'https:' ? 443 : 80),
-          path: n8nUrl.pathname,
+          path: `${n8nUrl.pathname}${n8nUrl.search}`,
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

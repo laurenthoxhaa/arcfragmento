@@ -7,7 +7,7 @@ exports.handler = async (event) => {
   }
 
   const n8nUrl = new URL(
-    process.env.N8N_WEBHOOK_URL || 'http://localhost:5678/webhook/kitchen-order-callback'
+    process.env.N8N_WEBHOOK_URL || 'https://n8n.primexeu.com/webhook/kitchen-order-callback'
   );
 
   const body = event.body || '';
@@ -18,7 +18,7 @@ exports.handler = async (event) => {
       {
         hostname: n8nUrl.hostname,
         port: n8nUrl.port || (n8nUrl.protocol === 'https:' ? 443 : 80),
-        path: n8nUrl.pathname,
+        path: `${n8nUrl.pathname}${n8nUrl.search}`,
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
