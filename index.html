@@ -2754,21 +2754,21 @@ Entdecke passende Schränke und Elektrogeräte, mit Transport bis zu deiner Wohn
         <div style="display:flex;flex-direction:column;gap:6px;"><label for="lastName">Nachname*</label><input id="lastName" name="lastName" type="text" required placeholder="Mustermann" /></div>
         <div style="display:flex;flex-direction:column;gap:6px;"><label for="email">E-Mail*</label><input id="email" name="email" type="email" required placeholder="max@example.com" /></div>
         <div style="display:flex;flex-direction:column;gap:6px;"><label for="phone">Telefon*</label><input id="phone" name="phone" type="tel" required placeholder="+49 170 1234567" /></div>
-        <div style="display:flex;flex-direction:column;gap:6px;grid-column:1 / -1;"><label for="address1">Adresse (Straße, Nr.)*</label><input id="address1" name="address1" type="text" required placeholder="Musterstraße 1" /></div>
+        <div style="display:flex;flex-direction:column;gap:6px;grid-column:1 / -1;"><label for="address1">Adresse (Straße, Nr.)</label><input id="address1" name="address1" type="text" placeholder="Musterstraße 1" /></div>
         <div style="display:flex;flex-direction:column;gap:6px;grid-column:1 / -1;"><label for="address2">Adresszusatz (optional)</label><input id="address2" name="address2" type="text" placeholder="Wohnung, Firma, etc." /></div>
-        <div style="display:flex;flex-direction:column;gap:6px;"><label for="postalCode">PLZ*</label><input id="postalCode" name="postalCode" type="text" required placeholder="10115" /></div>
-        <div style="display:flex;flex-direction:column;gap:6px;"><label for="city">Stadt*</label><input id="city" name="city" type="text" required placeholder="Berlin" /></div>
-        <div style="display:flex;flex-direction:column;gap:6px;"><label for="country">Land*</label><input id="country" name="country" type="text" required placeholder="Deutschland" /></div>
+        <div style="display:flex;flex-direction:column;gap:6px;"><label for="postalCode">PLZ</label><input id="postalCode" name="postalCode" type="text" placeholder="10115" /></div>
+        <div style="display:flex;flex-direction:column;gap:6px;"><label for="city">Stadt</label><input id="city" name="city" type="text" placeholder="Berlin" /></div>
+        <div style="display:flex;flex-direction:column;gap:6px;"><label for="country">Land</label><input id="country" name="country" type="text" placeholder="Deutschland" /></div>
         <div style="display:flex;flex-direction:column;gap:6px;grid-column:1 / -1;"><label for="notes">Anmerkungen (optional)</label><textarea id="notes" name="notes" rows="3" placeholder="Hinweise zur Lieferung, Wunschtermine, etc."></textarea></div>
         
         <div class="consent-row">
-          <input id="consent" name="consent" type="checkbox" required />
-          <label for="consent">Ich stimme der Verarbeitung meiner Daten zum Zweck der Bestellung zu.*</label>
+          <input id="consent" name="consent" type="checkbox" />
+          <label for="consent">Ich stimme der Verarbeitung meiner Daten zum Zweck der Bestellung zu.</label>
         </div>
 
         <!-- PAYMENT SECTION -->
         <div id="payment-methods" style="grid-column: 1 / -1; margin-top: 15px;">
-          <h3 style="margin-bottom: 15px; color: #333; font-weight: 500; text-align: left;">Zahlungsmethode auswählen*</h3>
+          <h3 style="margin-bottom: 15px; color: #333; font-weight: 500; text-align: left;">Zahlungsmethode auswählen</h3>
           <div class="payment-options-container">
             <div class="payment-option" data-value="PayPal">
               <img src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Paypal_2014_logo.png" alt="PayPal">
@@ -3968,12 +3968,6 @@ Entdecke passende Schränke und Elektrogeräte, mit Transport bis zu deiner Wohn
       if (!c.lastName) errors.push('Nachname');
       if (!c.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(c.email)) errors.push('E-Mail');
       if (!c.phone) errors.push('Telefon');
-      if (!c.address1) errors.push('Adresse');
-      if (!c.postalCode) errors.push('PLZ');
-      if (!c.city) errors.push('Stadt');
-      if (!c.country) errors.push('Land');
-      if (!c.consent) errors.push('Zustimmung');
-      if (!c.paymentMethod) errors.push('Zahlungsmethode');
       return errors;
     }
 
